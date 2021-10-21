@@ -1,5 +1,6 @@
 package uk.co.conjure.custom_views_demo
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -28,17 +29,16 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
     override fun getItemCount() = todoItems.size
 
     class TodoItemViewHolder(
-        private val checkListItemView: CheckListItemView,
+        private val strikeoutTextView: StrikeoutTextView,
         private val onCheckedChangeListener: OnItemCheckedListener
     ) :
-        RecyclerView.ViewHolder(checkListItemView) {
+        RecyclerView.ViewHolder(strikeoutTextView) {
         fun bind(todoItem: TodoItem) {
-            checkListItemView.text = todoItem.name
-            checkListItemView.setOnCheckedChangeListener(null)
-            checkListItemView.setChecked(todoItem.done, false)
-            checkListItemView.setOnCheckedChangeListener { isChecked ->
-                if (isChecked != todoItem.done)
-                    onCheckedChangeListener.onCheckChanged(todoItem.id, isChecked)
+            strikeoutTextView.text = todoItem.name
+            strikeoutTextView.setOnCheckedChangeListener(null)
+            strikeoutTextView.setChecked(todoItem.done, false)
+            strikeoutTextView.setOnCheckedChangeListener { isChecked ->
+                onCheckedChangeListener.onCheckChanged(todoItem.id, isChecked)
             }
         }
 
@@ -47,7 +47,8 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
                 parent: ViewGroup,
                 onCheckedChangeListener: OnItemCheckedListener
             ): TodoItemViewHolder {
-                val view = CheckListItemView(parent.context)
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_strikeout_todo, parent, false) as StrikeoutTextView
                 return TodoItemViewHolder(view, onCheckedChangeListener)
             }
         }

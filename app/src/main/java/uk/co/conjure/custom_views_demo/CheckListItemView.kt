@@ -73,9 +73,7 @@ class CheckListItemView : FrameLayout, Checkable {
 
     override fun isChecked() = isChecked
 
-    override fun toggle() {
-        setChecked(!isChecked)
-    }
+    override fun toggle() = setChecked(!isChecked)
 
     fun setOnCheckedChangeListener(listener: ((Boolean) -> Unit)?) {
         checkedChangeListener = listener
