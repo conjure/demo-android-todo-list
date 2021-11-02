@@ -11,20 +11,46 @@ import androidx.appcompat.widget.AppCompatTextView
 
 class StrikeoutTextView : AppCompatTextView, Checkable {
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        readAttrs(attrs, 0)
+    }
+
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
-    )
+    ) {
+        readAttrs(attrs, defStyleAttr)
+    }
 
     private var strikeoutAnimator: ValueAnimator? = null
     private var isChecked = false
     private var checkedChangeListener: ((Boolean) -> Unit)? = null
     private var strikeoutScale: Float = 0f
-    private val linePaint = Paint().apply {
-        strokeWidth = 1.0f
-        color = Color.BLACK
+
+    private var strikeoutColor: Int = Color.BLACK
+    private var strikeoutWidth: Float = 1f
+
+    private val linePaint by lazy {
+        Paint().apply {
+            strokeWidth = strikeoutWidth
+            color = strikeoutColor
+        }
+    }
+
+    private fun readAttrs(attrs: AttributeSet?, defStyleAttr: Int) {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.StrikeoutTextView,
+            defStyleAttr, 0
+        ).apply {
+            try {
+                strikeoutWidth = this.getDimension(R.styleable.StrikeoutTextView_strikeoutWidth, strikeoutWidth)
+                strikeoutColor = this.getColor(R.styleable.StrikeoutTextView_strikeoutColor, strikeoutColor)
+            } finally {
+                recycle()
+            }
+        }
     }
 
     init {
