@@ -1,5 +1,6 @@
 package uk.co.conjure.custom_views_demo.todo_list
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.conjure.custom_views_demo.R
 import uk.co.conjure.custom_views_demo.databinding.ActivityMainBinding
+import uk.co.conjure.custom_views_demo.todo_add.AddTodoActivity
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onAddClicked() {
-
+        startActivity(Intent(this, AddTodoActivity::class.java))
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
