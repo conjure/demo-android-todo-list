@@ -1,6 +1,7 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.persistence
 
 import androidx.lifecycle.LiveData
+import uk.co.conjure.custom_views_demo.TodoItem
 
 interface TodoStore {
     fun getTodoItemsLiveData(): LiveData<List<TodoItem>>

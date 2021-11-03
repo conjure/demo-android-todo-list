@@ -1,4 +1,4 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.custom_views
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,7 @@ import android.view.ViewPropertyAnimator
 import android.widget.Checkable
 import android.widget.FrameLayout
 import android.widget.TextView
+import uk.co.conjure.custom_views_demo.R
 
 class CheckListItemView : FrameLayout, Checkable {
     constructor(context: Context) : super(context)
@@ -37,7 +38,7 @@ class CheckListItemView : FrameLayout, Checkable {
         name = findViewById(R.id.tv_item_name)
         strikethrough = findViewById(R.id.strike_through)
 
-        strikethrough.visibility = View.VISIBLE
+        strikethrough.visibility = VISIBLE
         strikethrough.pivotX = 0f
         strikethrough.scaleX = 0f
 

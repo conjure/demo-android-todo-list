@@ -1,4 +1,4 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.todo_list
 
 import android.os.Bundle
 import android.view.Menu
@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
+import uk.co.conjure.custom_views_demo.R
 import uk.co.conjure.custom_views_demo.databinding.ActivityMainBinding
 
 @AndroidEntryPoint

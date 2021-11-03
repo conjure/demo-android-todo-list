@@ -1,4 +1,4 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.custom_views
 
 import android.animation.ValueAnimator
 import android.content.Context
@@ -8,6 +8,7 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.Checkable
 import androidx.appcompat.widget.AppCompatTextView
+import uk.co.conjure.custom_views_demo.R
 
 class StrikeoutTextView : AppCompatTextView, Checkable {
     constructor(context: Context) : super(context)

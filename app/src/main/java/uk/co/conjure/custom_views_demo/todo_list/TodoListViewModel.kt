@@ -1,14 +1,16 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.todo_list
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import uk.co.conjure.custom_views_demo.TodoItem
+import uk.co.conjure.custom_views_demo.persistence.TodoStore
 import javax.inject.Inject
-import androidx.lifecycle.ViewModel as AndroidViewModel
 
 @HiltViewModel
 class TodoListViewModel @Inject constructor(
     private val todoStore: TodoStore
-) : AndroidViewModel() {
+) : ViewModel() {
 
     fun getTodoList(): LiveData<List<TodoItem>> = todoStore.getTodoItemsLiveData()
 

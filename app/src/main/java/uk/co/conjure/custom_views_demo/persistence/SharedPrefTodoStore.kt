@@ -1,4 +1,4 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.persistence
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
+import uk.co.conjure.custom_views_demo.TodoItem
 import javax.inject.Inject
 
 class SharedPrefTodoStore @Inject constructor(

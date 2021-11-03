@@ -1,4 +1,4 @@
-package uk.co.conjure.custom_views_demo
+package uk.co.conjure.custom_views_demo.persistence
 
 import dagger.Binds
 import dagger.Module
