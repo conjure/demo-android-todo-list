@@ -1,7 +1,7 @@
 package uk.co.conjure.custom_views_demo
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
-class App : Application() {
-    val viewModelFactory by lazy { ViewModelFactory() }
-}
+@HiltAndroidApp
+class App : Application()
