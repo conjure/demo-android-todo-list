@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.content.res.AppCompatResources
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import uk.co.conjure.custom_views_demo.R
@@ -35,6 +37,12 @@ class MainActivity : AppCompatActivity() {
         )
         binding.rvTodo.adapter = itemAdapter
         binding.rvTodo.layoutManager = LinearLayoutManager(this)
+        AppCompatResources.getDrawable(this, R.drawable.list_divider)?.let {
+            binding.rvTodo.addItemDecoration(
+                DividerItemDecoration(this, DividerItemDecoration.VERTICAL)
+                    .apply { setDrawable(it) }
+            )
+        }
 
         viewModel.getTodoList().observe(this) { itemAdapter.onNewList(it) }
     }
