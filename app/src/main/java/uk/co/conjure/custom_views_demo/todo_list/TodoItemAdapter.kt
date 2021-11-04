@@ -2,6 +2,8 @@ package uk.co.conjure.custom_views_demo.todo_list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.Checkable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import uk.co.conjure.custom_views_demo.R
@@ -32,15 +34,14 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
     override fun getItemCount() = todoItems.size
 
     class TodoItemViewHolder(
-        private val strikeoutTextView: StrikeoutTextView,
+        private val todoItemView: CheckBox,
         private val onCheckedChangeListener: OnItemCheckedListener
-    ) :
-        RecyclerView.ViewHolder(strikeoutTextView) {
+    ) : RecyclerView.ViewHolder(todoItemView) {
         fun bind(todoItem: TodoItem) {
-            strikeoutTextView.text = todoItem.name
-            strikeoutTextView.setOnCheckedChangeListener(null)
-            strikeoutTextView.setChecked(todoItem.done, false)
-            strikeoutTextView.setOnCheckedChangeListener { isChecked ->
+            todoItemView.text = todoItem.name
+            todoItemView.setOnCheckedChangeListener(null)
+            todoItemView.setChecked(todoItem.done)
+            todoItemView.setOnCheckedChangeListener { _, isChecked ->
                 onCheckedChangeListener.onCheckChanged(todoItem.id, isChecked)
             }
         }
@@ -51,7 +52,7 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
                 onCheckedChangeListener: OnItemCheckedListener
             ): TodoItemViewHolder {
                 val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_strikeout_todo, parent, false) as StrikeoutTextView
+                    .inflate(R.layout.item_checkbox_todo, parent, false) as CheckBox
                 return TodoItemViewHolder(view, onCheckedChangeListener)
             }
         }

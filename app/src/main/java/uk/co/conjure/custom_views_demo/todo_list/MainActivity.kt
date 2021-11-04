@@ -14,7 +14,6 @@ import uk.co.conjure.custom_views_demo.todo_add.AddTodoActivity
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-
     private lateinit var binding: ActivityMainBinding
     private lateinit var itemAdapter: TodoItemAdapter
 

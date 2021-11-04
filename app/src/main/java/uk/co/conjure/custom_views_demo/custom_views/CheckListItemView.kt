@@ -34,7 +34,7 @@ class CheckListItemView : FrameLayout, Checkable {
     private var checkedChangeListener: ((Boolean) -> Unit)? = null
 
     init {
-        inflate(context, R.layout.item_todo, this)
+        inflate(context, R.layout.item_compound_todo, this)
         name = findViewById(R.id.tv_item_name)
         strikethrough = findViewById(R.id.strike_through)
 
