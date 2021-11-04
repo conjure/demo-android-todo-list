@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="StrikeoutTextView">
-        <attr name="strikeoutWidth" format="dimension"/>
-        <attr name="strikeoutColor" format="color"/>
+    <declare-styleable name="PriorityCheckbox">
+        <attr name="priority" format="boolean" />
+        <attr name="android:text" />
     </declare-styleable>
 </resources>

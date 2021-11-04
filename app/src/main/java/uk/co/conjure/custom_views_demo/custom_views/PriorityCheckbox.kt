@@ -8,12 +8,16 @@ import uk.co.conjure.custom_views_demo.R
 
 class PriorityCheckbox : FrameLayout {
     constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
+        readAttrs(attrs, 0)
+    }
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context,
         attrs,
         defStyleAttr
-    )
+    ) {
+        readAttrs(attrs, 0)
+    }
 
     private val checkbox: CheckBox
     private val priorityIcon: ImageView
@@ -39,6 +43,21 @@ class PriorityCheckbox : FrameLayout {
             priorityIcon.visibility = if (value) View.VISIBLE else View.GONE
             field = value
         }
+
+    private fun readAttrs(attrs: AttributeSet?, defStyleAttr: Int) {
+        context.theme.obtainStyledAttributes(
+            attrs,
+            R.styleable.PriorityCheckbox,
+            defStyleAttr, 0
+        ).apply {
+            try {
+                text = this.getText(R.styleable.PriorityCheckbox_android_text)?.toString() ?: ""
+                isPriority = this.getBoolean(R.styleable.PriorityCheckbox_priority, isPriority)
+            } finally {
+                recycle()
+            }
+        }
+    }
 
     init {
         inflate(context, R.layout.compound_priority_checkbox, this)

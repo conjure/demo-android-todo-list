@@ -14,4 +14,8 @@
     <string name="add_to_do">Add to do</string>
     <string name="prioritize_this_item">Prioritize this item</string>
     <string name="priority_to_do">Priority To Do</string>
+    <string name="terms_and_conditions_content">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla eu lacus orci. Cras hendrerit dictum tempor. Duis dignissim nulla auctor porttitor scelerisque. Pellentesque tincidunt viverra leo. Phasellus laoreet commodo felis non volutpat. Quisque eget porta dui. Nullam feugiat mauris sit amet ipsum faucibus tincidunt. </string>
+    <string name="terms_and_conditions">Terms and conditions…</string>
+    <string name="i_accept_the_terms_and_conditions">I have read the terms and conditions</string>
+    <string name="continue_text">continue</string>
 </resources>
