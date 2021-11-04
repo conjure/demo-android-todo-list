@@ -1,6 +1,7 @@
 package uk.co.conjure.custom_views_demo.persistence
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
@@ -17,25 +18,27 @@ class SharedPrefTodoStore @Inject constructor(
     private val todoListItemType = object : TypeToken<List<TodoItem>>() {}.type
 
     private val todoItemsLiveData = MutableLiveData<List<TodoItem>>()
-    private val sharedPrefs = context
-        .getSharedPreferences("todo-store", Context.MODE_PRIVATE)
-        .apply {
-            registerOnSharedPreferenceChangeListener { _, _ ->
-                todoItemsLiveData.postValue(readTodoItems())
-            }
-        }
+    private val sharedPrefs = context.getSharedPreferences("todo-store", Context.MODE_PRIVATE)
+    private val sharedPrefsListener = SharedPreferences.OnSharedPreferenceChangeListener { _, _ ->
+        todoItemsLiveData.postValue(readTodoItems(sharedPrefs))
+    }
+
+    init {
+        sharedPrefs.registerOnSharedPreferenceChangeListener(sharedPrefsListener)
+        todoItemsLiveData.postValue(readTodoItems(sharedPrefs))
+    }
 
     override fun getTodoItemsLiveData(): LiveData<List<TodoItem>> = todoItemsLiveData
 
     override fun addTodoItem(name: String, priority: Int) {
-        val currentItems = readTodoItems()
-        val lastId = currentItems.maxOf { it.id }
+        val currentItems = readTodoItems(sharedPrefs)
+        val lastId = currentItems.maxOfOrNull { it.id } ?: 0
         val newItem = TodoItem(lastId + 1, name, priority, false)
         writeTodoItems(currentItems.plus(newItem))
     }
 
     override fun updateTodoItemChecked(id: Int, checked: Boolean) {
-        val items = readTodoItems().toMutableList()
+        val items = readTodoItems(sharedPrefs).toMutableList()
         val indexOfItem = items.indexOfFirst { it.id == id }
         if (indexOfItem == -1) return
         items[indexOfItem] = items[indexOfItem].copy(done = checked)
@@ -46,8 +49,8 @@ class SharedPrefTodoStore @Inject constructor(
         writeTodoItems(emptyList())
     }
 
-    private fun readTodoItems(): List<TodoItem> {
-        return sharedPrefs.getString(TODO_LIST_PREF, "")
+    private fun readTodoItems(sharedPreferences: SharedPreferences): List<TodoItem> {
+        return sharedPreferences.getString(TODO_LIST_PREF, "")
             .let { gson.fromJson(it, todoListItemType) }
     }
 
