@@ -13,4 +13,5 @@
     <string name="add">Add</string>
     <string name="add_to_do">Add to do</string>
     <string name="prioritize_this_item">Prioritize this item</string>
+    <string name="priority_to_do">Priority To Do</string>
 </resources>

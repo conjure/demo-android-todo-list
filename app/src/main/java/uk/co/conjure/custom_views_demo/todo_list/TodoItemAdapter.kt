@@ -1,14 +1,10 @@
 package uk.co.conjure.custom_views_demo.todo_list
 
-import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.Checkable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import uk.co.conjure.custom_views_demo.R
-import uk.co.conjure.custom_views_demo.custom_views.StrikeoutTextView
 import uk.co.conjure.custom_views_demo.TodoItem
+import uk.co.conjure.custom_views_demo.custom_views.PriorityCheckbox
 
 class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener) :
     RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
@@ -34,13 +30,14 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
     override fun getItemCount() = todoItems.size
 
     class TodoItemViewHolder(
-        private val todoItemView: CheckBox,
+        private val todoItemView: PriorityCheckbox,
         private val onCheckedChangeListener: OnItemCheckedListener
     ) : RecyclerView.ViewHolder(todoItemView) {
         fun bind(todoItem: TodoItem) {
             todoItemView.text = todoItem.name
             todoItemView.setOnCheckedChangeListener(null)
-            todoItemView.setChecked(todoItem.done)
+            todoItemView.isChecked = todoItem.done
+            todoItemView.isPriority = todoItem.priority == 1
             todoItemView.setOnCheckedChangeListener { _, isChecked ->
                 onCheckedChangeListener.onCheckChanged(todoItem.id, isChecked)
             }
@@ -51,8 +48,7 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
                 parent: ViewGroup,
                 onCheckedChangeListener: OnItemCheckedListener
             ): TodoItemViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.item_checkbox_todo, parent, false) as CheckBox
+                val view = PriorityCheckbox(parent.context)
                 return TodoItemViewHolder(view, onCheckedChangeListener)
             }
         }
