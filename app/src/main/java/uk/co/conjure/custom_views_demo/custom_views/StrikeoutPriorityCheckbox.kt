@@ -6,9 +6,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.view.View
 import android.widget.CompoundButton
-import androidx.core.view.children
 import androidx.core.view.doOnLayout
 import uk.co.conjure.custom_views_demo.R
 

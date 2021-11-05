@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content">
 
     <CheckBox
         android:id="@+id/checkbox"
@@ -27,7 +26,6 @@
         android:id="@+id/iv_priority"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_gravity="end|center"
         android:layout_marginEnd="20dp"
         android:contentDescription="@string/priority_to_do"
         android:src="@drawable/baseline_error_36"
