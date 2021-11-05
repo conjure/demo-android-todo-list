@@ -7,7 +7,7 @@ import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
 import uk.co.conjure.custom_views_demo.R
 
-open class PriorityCheckbox : ConstraintLayout {
+open class PriorityCheckbox : FrameLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         readAttrs(attrs, 0)
