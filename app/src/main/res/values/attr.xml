@@ -4,4 +4,8 @@
         <attr name="priority" format="boolean" />
         <attr name="android:text" />
     </declare-styleable>
+    <declare-styleable name="StrikeoutPriorityCheckbox">
+        <attr name="strikeoutWidth" format="dimension" />
+        <attr name="strikeoutColor" format="color" />
+    </declare-styleable>
 </resources>

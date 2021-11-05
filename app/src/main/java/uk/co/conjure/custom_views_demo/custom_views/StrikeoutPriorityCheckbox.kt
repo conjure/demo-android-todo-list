@@ -6,11 +6,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
-import android.widget.Checkable
-import androidx.appcompat.widget.AppCompatTextView
+import android.view.View
+import android.widget.CompoundButton
+import androidx.core.view.children
+import androidx.core.view.doOnLayout
 import uk.co.conjure.custom_views_demo.R
 
-class StrikeoutTextView : AppCompatTextView, Checkable {
+class StrikeoutPriorityCheckbox : PriorityCheckbox {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         readAttrs(attrs, 0)
@@ -25,12 +27,13 @@ class StrikeoutTextView : AppCompatTextView, Checkable {
     }
 
     private var strikeoutAnimator: ValueAnimator? = null
-    private var isChecked = false
-    private var checkedChangeListener: ((Boolean) -> Unit)? = null
+    private var listener: CompoundButton.OnCheckedChangeListener? = null
     private var strikeoutScale: Float = 0f
 
     private var strikeoutColor: Int = Color.BLACK
     private var strikeoutWidth: Float = 1f
+    private var strikeoutStart = 0f
+    private var strikeoutEnd = 0f
 
     private val linePaint by lazy {
         Paint().apply {
@@ -41,13 +44,18 @@ class StrikeoutTextView : AppCompatTextView, Checkable {
 
     private fun readAttrs(attrs: AttributeSet?, defStyleAttr: Int) {
         context.theme.obtainStyledAttributes(
-            attrs,
-            R.styleable.StrikeoutTextView,
+            attrs, R.styleable.StrikeoutPriorityCheckbox,
             defStyleAttr, 0
         ).apply {
             try {
-                strikeoutWidth = this.getDimension(R.styleable.StrikeoutTextView_strikeoutWidth, strikeoutWidth)
-                strikeoutColor = this.getColor(R.styleable.StrikeoutTextView_strikeoutColor, strikeoutColor)
+                strikeoutWidth = this.getDimension(
+                    R.styleable.StrikeoutPriorityCheckbox_strikeoutWidth,
+                    strikeoutWidth
+                )
+                strikeoutColor = this.getColor(
+                    R.styleable.StrikeoutPriorityCheckbox_strikeoutColor,
+                    strikeoutColor
+                )
             } finally {
                 recycle()
             }
@@ -55,26 +63,27 @@ class StrikeoutTextView : AppCompatTextView, Checkable {
     }
 
     init {
-        setOnClickListener { toggle() }
+        //This flag is used by implementations of ViewGroup which we are inheriting
+        // we must set it to false or onDraw will not be called
+        setWillNotDraw(false)
+        checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
+            animateStrikeout()
+            listener?.onCheckedChanged(buttonView, isChecked)
+        }
+        checkbox.doOnLayout {
+            strikeoutStart = checkbox.x
+            strikeoutEnd = strikeoutStart + checkbox.width
+        }
     }
 
-    fun setChecked(checked: Boolean, animate: Boolean) {
-        if (checked == isChecked) return
-        isChecked = checked
-
-        if (animate) {
-            if (isChecked) animateStrikeThrough(true)
-            else animateStrikeThrough(false)
-        } else {
-            strikeoutScale = if (isChecked) 1f else 0f
-        }
-
+    private fun animateStrikeout() {
+        if (isChecked) animateStrikeout(true)
+        else animateStrikeout(false)
         //We must call invalidate to make sure onDraw is called again
         invalidate()
-        checkedChangeListener?.invoke(isChecked)
     }
 
-    private fun animateStrikeThrough(animateIn: Boolean) {
+    private fun animateStrikeout(animateIn: Boolean) {
         strikeoutAnimator?.cancel()
         strikeoutScale = if (animateIn) 0f else 1f
         val endScale = if (animateIn) 1f else 0f
@@ -92,21 +101,13 @@ class StrikeoutTextView : AppCompatTextView, Checkable {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas) // This will draw the text for us
-        val startX = this.paddingLeft.toFloat()
-        val endView = this.width.toFloat() - this.paddingRight.toFloat()
-        val drawableWidth = endView - startX
-        val stopX = startX + (drawableWidth * strikeoutScale)
+        val drawableWidth = strikeoutEnd - strikeoutStart
+        val stopX = strikeoutStart + (drawableWidth * strikeoutScale)
         val midY = this.height / 2f
-        canvas?.drawLine(startX, midY, stopX, midY, linePaint)
+        canvas?.drawLine(strikeoutStart, midY, stopX, midY, linePaint)
     }
 
-    override fun setChecked(checked: Boolean) = setChecked(checked, true)
-
-    override fun isChecked() = isChecked
-
-    override fun toggle() = setChecked(!isChecked)
-
-    fun setOnCheckedChangeListener(listener: ((Boolean) -> Unit)?) {
-        checkedChangeListener = listener
+    override fun setOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener?) {
+        this.listener = listener
     }
 }

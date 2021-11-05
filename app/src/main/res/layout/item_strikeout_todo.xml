@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<uk.co.conjure.custom_views_demo.custom_views.StrikeoutTextView xmlns:android="http://schemas.android.com/apk/res/android"
+<uk.co.conjure.custom_views_demo.custom_views.StrikeoutPriorityCheckbox xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="22sp"
-    android:textStyle="bold"
-    app:strikeoutColor="@color/black"
-    app:strikeoutWidth="2dp"
-    tools:text="Todo list item" />
+    android:textColor="@color/todo_text_color"
+    android:textSize="18sp"
+    app:strikeoutColor="@color/gray"
+    app:strikeoutWidth="1.1dp"
+    tools:text="todo item" />

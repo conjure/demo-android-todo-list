@@ -1,10 +1,13 @@
 package uk.co.conjure.custom_views_demo.todo_list
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import uk.co.conjure.custom_views_demo.R
 import uk.co.conjure.custom_views_demo.TodoItem
 import uk.co.conjure.custom_views_demo.custom_views.PriorityCheckbox
+import uk.co.conjure.custom_views_demo.custom_views.StrikeoutPriorityCheckbox
 
 class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener) :
     RecyclerView.Adapter<TodoItemAdapter.TodoItemViewHolder>() {
@@ -48,7 +51,9 @@ class TodoItemAdapter(private val onCheckedChangeListener: OnItemCheckedListener
                 parent: ViewGroup,
                 onCheckedChangeListener: OnItemCheckedListener
             ): TodoItemViewHolder {
-                val view = PriorityCheckbox(parent.context)
+                val view = LayoutInflater.from(parent.context).inflate(
+                    R.layout.item_strikeout_todo, parent, false
+                ) as PriorityCheckbox
                 return TodoItemViewHolder(view, onCheckedChangeListener)
             }
         }

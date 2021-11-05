@@ -4,9 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import uk.co.conjure.custom_views_demo.R
 
-class PriorityCheckbox : FrameLayout {
+open class PriorityCheckbox : ConstraintLayout {
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs) {
         readAttrs(attrs, 0)
@@ -19,8 +20,8 @@ class PriorityCheckbox : FrameLayout {
         readAttrs(attrs, 0)
     }
 
-    private val checkbox: CheckBox
-    private val priorityIcon: ImageView
+    protected val checkbox: CheckBox
+    protected val priorityIcon: ImageView
 
     var text: String
         get() {
@@ -65,7 +66,7 @@ class PriorityCheckbox : FrameLayout {
         priorityIcon = findViewById(R.id.iv_priority)
     }
 
-    fun setOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener?) {
+    open fun setOnCheckedChangeListener(listener: CompoundButton.OnCheckedChangeListener?) {
         checkbox.setOnCheckedChangeListener(listener)
     }
 }
