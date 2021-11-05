@@ -31,7 +31,7 @@ open class PriorityCheckbox : ConstraintLayout {
             checkbox.text = value
         }
 
-    var isChecked: Boolean
+    open var isChecked: Boolean
         get() {
             return checkbox.isChecked
         }

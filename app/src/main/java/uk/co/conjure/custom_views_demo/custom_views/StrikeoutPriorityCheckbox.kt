@@ -7,7 +7,6 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.widget.CompoundButton
-import androidx.core.view.doOnLayout
 import uk.co.conjure.custom_views_demo.R
 
 class StrikeoutPriorityCheckbox : PriorityCheckbox {
@@ -24,14 +23,24 @@ class StrikeoutPriorityCheckbox : PriorityCheckbox {
         readAttrs(attrs, defStyleAttr)
     }
 
+    private var skipNextAnimation = false
+    override var isChecked: Boolean
+        get() {
+            return checkbox.isChecked
+        }
+        set(value) {
+            if (value != checkbox.isChecked) {
+                skipNextAnimation = true
+                checkbox.isChecked = value
+            }
+        }
+
     private var strikeoutAnimator: ValueAnimator? = null
     private var listener: CompoundButton.OnCheckedChangeListener? = null
     private var strikeoutScale: Float = 0f
 
     private var strikeoutColor: Int = Color.BLACK
     private var strikeoutWidth: Float = 1f
-    private var strikeoutStart = 0f
-    private var strikeoutEnd = 0f
 
     private val linePaint by lazy {
         Paint().apply {
@@ -65,13 +74,17 @@ class StrikeoutPriorityCheckbox : PriorityCheckbox {
         // we must set it to false or onDraw will not be called
         setWillNotDraw(false)
         checkbox.setOnCheckedChangeListener { buttonView, isChecked ->
-            animateStrikeout()
+            if (skipNextAnimation) {
+                skipNextAnimation = false
+                setStrikeout(isChecked)
+            } else animateStrikeout()
             listener?.onCheckedChanged(buttonView, isChecked)
         }
-        checkbox.doOnLayout {
-            strikeoutStart = checkbox.x
-            strikeoutEnd = strikeoutStart + checkbox.width
-        }
+        setStrikeout(isChecked)
+    }
+
+    private fun setStrikeout(visible: Boolean) {
+        strikeoutScale = if (visible) 1f else 0f
     }
 
     private fun animateStrikeout() {
@@ -99,6 +112,8 @@ class StrikeoutPriorityCheckbox : PriorityCheckbox {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas) // This will draw the text for us
+        val strikeoutStart = checkbox.x
+        val strikeoutEnd = strikeoutStart + checkbox.width
         val drawableWidth = strikeoutEnd - strikeoutStart
         val stopX = strikeoutStart + (drawableWidth * strikeoutScale)
         val midY = this.height / 2f
